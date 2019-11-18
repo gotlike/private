@@ -1,0 +1,101 @@
+package text;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Vector;
+
+public class text {
+	public static void main(String []arg) {
+		Vector<String>v=new Vector<String>();
+		v.add("回锅肉是中国川菜中一种烹调猪肉的传统菜式，川西地区还称之为熬锅肉。四川家家户户都能制作。回锅肉的特点是口味独特，色泽红亮，肥而不腻。所谓回锅，就是再次烹调的意思。回锅肉作为一道传统川菜，在川菜中的地位是非常重要的，川菜考级经常用回锅肉作为首选菜肴。回锅肉一直被认为是川菜之首，川菜之化身，提到川菜必然想到回锅肉。");
+		v.add("剁椒鱼头(英文名:Chop bell pepper fish head)是湖南传统名菜。据传，起源和清代文人黄宗宪有关。通常以鳙鱼鱼头、剁椒为主料，配以豉油、姜、葱、蒜等辅料蒸制而成。菜品色泽红亮、味浓、肉质细嫩。肥而不腻、口感软糯、鲜辣适口。");
+		v.add("辣子鸡，全称\"枣庄辣子鸡\"，\"枣庄大盘辣子鸡\"。枣庄是中国辣子鸡之乡，其为鲁南地区颇具特色的美食。特点是鲜、辣、香，色艳味重。烹炒鸡肉多以本地散养公鸡为佳，其中最以老公鸡和小公鸡最为优选。现又被枣庄的厨师们创造性的开发出一系列的衍生菜:小鸡泡馍、麻花辣子鸡、面条鸡、地锅饼辣子鸡等。");
+		v.add("麻婆豆腐是四川省汉族传统名菜之一，属于川菜系。主要原料为配料和豆腐，材料主要有豆腐、牛肉末(也可以用猪肉)、辣椒和花椒等。麻来自花椒，辣来自辣椒，这道菜突出了川菜\"麻辣\"的特点。麻婆豆腐在不同的地区有不同的做法，南方做法多数会放些许肉末，而北方就是单纯的放置辣椒和花椒。\r\n" + 
+				"此菜大约在清代同治初年(1874年以后)，由成都市北郊万福桥一家名为\"陈兴盛饭铺\"的小饭店老板娘陈刘氏所创。因为陈刘氏脸上有麻点，人称陈麻婆，她发明的烧豆腐就被称为\"陈麻婆豆腐\"。\r\n" + 
+				"");
+		v.add("烤鱼是指鱼类经过烤制之后然后进行烹饪的一种方法，这种烹调方式实现了\"一烤二炖\"。是烤鱼界的一次新变革。现在提到\"烤鱼\"大多指\"川味烤鱼\"。\r\n" + 
+				"烤鱼，一种发源于重庆巫溪，而发扬于万州的特色美食，在流传过程中，融合腌、烤、炖三种烹饪工艺技术，充分借鉴传统川菜及川味火锅用料特点，是口味奇绝、营养丰富的风味小吃。\r\n" + 
+				"");
+		v.add("豆干是豆腐干的简称，中国传统豆制品之一，是豆腐的再加工制品。咸香爽口，硬中带韧，久放不坏，是中国各大菜系中都有一道美食。出产于中国华南，江南地区。\r\n" + 
+				"豆干营养丰富，含有大量蛋白质、脂肪、碳水化合物，还含有钙、磷、铁等多种人体所需的矿物质。豆腐干在制作过程中会添加食盐、茴香、花椒、大料、干姜等调料，既香又鲜，久吃不厌，被誉为\"素火腿\"。\r\n" + 
+				"");
+		
+		v.add("以火龙果为主的水果沙拉。");
+		v.add("五香老卤牛肉，是卤味中非常经典的，其使用的传统五香制法将牛肉卤制的无与伦比，酱香浓郁，从而深得消费大众喜爱，");
+		v.add("");
+		v.add("");
+		v.add("");
+		v.add("");
+		
+		v.add("");
+		v.add("");
+		v.add("");
+		v.add("");
+		v.add("");
+		v.add("");
+		
+		v.add("");
+		v.add("");
+		v.add("");
+		v.add("");
+		v.add("");
+		v.add("");
+		
+		v.add("");
+		v.add("");
+		v.add("");
+		v.add("");
+		v.add("");
+		v.add("");
+		
+		v.add("");
+		v.add("");
+		v.add("");
+		v.add("");
+		v.add("");
+		v.add("");
+		
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			DataOutputStream dos=new DataOutputStream(new FileOutputStream(""+i+".doc"));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(""+i+".doc"));
+
+
+			for(int j=0;j<30;j++) {
+				String desknum=new String(v);
+				int people=Integer.parseInt(tf_orderPeoplesLabel.getText());
+				
+				String time=getTime();
+				int number=	num[j];
+				if(num[j]==0)
+					continue;
+				String dish=new String(dishName[j]);
+				double total=number*price[j];
+				
+				bw.write(desknum+"\n");
+				bw.write(String.valueOf(people)+"\n");
+				bw.write(time+"\n");
+				bw.write(dish+"\n");
+				bw.write(String.valueOf(number)+"\n");
+				bw.write(String.valueOf(total)+"\n");
+				
+			}
+			bw.close();
+			dos.close();
+			br.close();
+
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+}
