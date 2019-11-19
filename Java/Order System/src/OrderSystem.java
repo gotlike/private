@@ -138,6 +138,7 @@ public class OrderSystem extends JFrame implements ActionListener{
 						jt.setLayout(new FlowLayout());
 						jt.setEditable(false);
 						jt.setFont(new Font("Ò¶¸ùÓÑÃ«±ÊÐÐÊé2.0°æ",Font.BOLD,22));
+						jt.setForeground(Color.LIGHT_GRAY);
 						bt_close.addActionListener(mainJFrame);
 						bt_close.setBounds(350, 400, 100, 60);
 						bt_close.setFont(new Font("Ó×Ô²",Font.BOLD,24));
@@ -150,7 +151,7 @@ public class OrderSystem extends JFrame implements ActionListener{
 						dialog.setBounds(500, 300, 800, 500);
 						dialog.setVisible(true);
 						
-						JLabel lb_image=new JLabel(new ImageIcon("dialog.jpg"));
+						JLabel lb_image=new JLabel(new ImageIcon("dialog3.jpg"));
 						lb_image.setBounds(0,0,800,500);
 						dialog.add(lb_image);
 						
@@ -639,7 +640,7 @@ public class OrderSystem extends JFrame implements ActionListener{
 		}
 	
 		lb_welcome.setBounds(400, 0, 800, 100);
-		lb_welcome.setFont(new Font("Ò¶¸ùÓÑÃ«±ÊÐÐÊé2.0°æ",Font.BOLD,30));
+		lb_welcome.setFont(new Font("Ò¶¸ùÓÑÃ«±ÊÐÐÊé2.0°æ",Font.BOLD,36));
 		lb_welcome.setForeground(Color.orange);
 		panel.add(lb_welcome);
 		
@@ -660,7 +661,7 @@ public class OrderSystem extends JFrame implements ActionListener{
 			
 		}
 		
-		JLabel lb_imageMenu=new JLabel(new ImageIcon("bg5.jpg"));
+		JLabel lb_imageMenu=new JLabel(new ImageIcon("bg21.jpg"));
 		lb_imageMenu.setBounds(0,0,240,650);
 		pn_menuPanel.add(lb_imageMenu);
 		
@@ -696,7 +697,7 @@ public class OrderSystem extends JFrame implements ActionListener{
 		
 		
 		
-		JLabel lb_image=new JLabel(new ImageIcon("bg3.jpg"));
+		JLabel lb_image=new JLabel(new ImageIcon("bg6.jpg"));
 		lb_image.setBounds(0,0,1200,900);
 		panel.add(lb_image);
 		

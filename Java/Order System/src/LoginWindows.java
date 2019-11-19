@@ -69,7 +69,7 @@ public class LoginWindows extends JFrame {
 		judgeStatus.setForeground(Color.PINK);
 		panel.add(judgeStatus);
 		
-		ImageIcon image=new ImageIcon("bg1.jpg");
+		ImageIcon image=new ImageIcon("bg8.jpg");
 		JLabel lb_image=new JLabel(image);
 		lb_image.setBounds(0,0,420,280);
 		panel.add(lb_image);
