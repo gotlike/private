@@ -753,10 +753,8 @@ public class OrderSystem extends JFrame implements ActionListener{
 					for(int j=0;j<30;j++) {
 						String desknum=new String(JCb_deskNum.getSelectedItem().toString());
 						int people=0;
-						if(!tf_orderPeoplesLabel.getText().equals(""))
-						{
-							people=Integer.parseInt(tf_orderPeoplesLabel.getText());
-						}
+						people=Integer.parseInt(tf_orderPeoplesLabel.getText());
+						
 						String time=getTime();
 						int number=	num[j];
 						if(num[j]==0)

@@ -100,7 +100,7 @@ public class AdministratorSystem extends JFrame{
 						}
 					}
 					
-					if(j<50)
+					if(j<36)
 					{
 						customerList.removeAll();
 						customerList.add(makeRecordPanel2((i+1)));
