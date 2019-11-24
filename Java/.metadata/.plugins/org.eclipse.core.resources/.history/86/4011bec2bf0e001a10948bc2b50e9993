@@ -1,0 +1,38 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+
+public class MenuItemActionListener extends JFrame implements ActionListener {
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(((JMenuItem)e.getSource()).getText().equals("我的订单"))
+		{
+			System.out.println("我的订单");
+		}
+		if(((JMenuItem)e.getSource()).getText().equals("充值"))
+		{
+			System.out.println("充值");
+		}
+		if(((JMenuItem)e.getSource()).getText().equals("查看余额"))
+		{
+			System.out.println("查看余额");
+		}
+		if(((JMenuItem)e.getSource()).getText().equals("退出系统"))
+		{
+			System.out.println("退出系统");
+		}
+		if(((JMenuItem)e.getSource()).getText().equals("退出登录"))
+		{
+			System.out.println("退出登录");
+		}
+		if(((JMenuItem)e.getSource()).getText().equals("宋体")||((JMenuItem)e.getSource()).getText().equals("幼圆")||((JMenuItem)e.getSource()).getText().equals("叶根友毛笔行书2.0版")||((JMenuItem)e.getSource()).getText().equals("黑")||((JMenuItem)e.getSource()).getText().equals("蓝")||((JMenuItem)e.getSource()).getText().equals("灰")||((JMenuItem)e.getSource()).getText().equals("绿")||((JMenuItem)e.getSource()).getText().equals("橙")||((JMenuItem)e.getSource()).getText().equals("粉红")||((JMenuItem)e.getSource()).getText().equals("红")||((JMenuItem)e.getSource()).getText().equals("黄")||((JMenuItem)e.getSource()).getText().equals("大")||((JMenuItem)e.getSource()).getText().equals("中")||((JMenuItem)e.getSource()).getText().equals("小"))
+		{
+			System.out.println(((JMenuItem)e.getSource()).getText());
+		}
+	}
+
+}

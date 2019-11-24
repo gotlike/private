@@ -1,0 +1,436 @@
+import java.awt.*;
+import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+import javax.swing.*;
+public class LoginWindows extends JFrame implements ActionListener{
+	static LoginWindows mainJFrame=new LoginWindows();
+	static LWinListener wlist=new LWinListener();
+	static Dialog dialog=new Dialog(mainJFrame);
+	static Customer[] customer;
+	protected static Component makeLoginPanel() {
+		JPanel panel=new JPanel();
+		
+		JLabel lb_administratorLogin=new JLabel();
+		JLabel lb_name=new JLabel();
+		JLabel lb_pass=new JLabel();
+		JLabel judgeStatus=new JLabel("«Î ‰»Î’À∫≈√‹¬Î");
+		
+		JTextField tf_name=new JTextField();
+		JPasswordField pf_pass=new JPasswordField();
+		
+		JButton bt_login=new JButton("µ«¬º");
+		JButton bt_reset=new JButton("÷ÿ÷√");
+		JButton bt_customerLogin=new JButton("πÀøÕµ«¬º");
+		
+		panel.setLayout(null);
+		
+		lb_administratorLogin.setText("π‹¿Ì‘±µ«¬ºΩÁ√Ê");
+		lb_administratorLogin.setSize(100,20);
+		lb_administratorLogin.setBounds(0, 0, 100, 30);
+		lb_administratorLogin.setForeground(Color.green);
+		panel.add(lb_administratorLogin);
+		
+		lb_name.setText("’À ∫≈");
+		lb_name.setSize(20,20);
+		lb_name.setFont(new Font("“∂∏˘”—√´± –– È2.0∞Ê",Font.BOLD,30));
+		lb_name.setBounds(110,75,100,50);
+		lb_name.setForeground(Color.green);
+		panel.add(lb_name);
+
+		tf_name.setBounds(193, 88, 133, 24);
+		panel.add(tf_name);
+		
+		lb_pass.setText("√‹¬Î");
+		lb_pass.setSize(20, 20);
+		lb_pass.setBounds(110, 125, 100, 50);
+		lb_pass.setForeground(Color.green);
+		lb_pass.setFont(new Font("“∂∏˘”—√´± –– È2.0∞Ê",Font.BOLD,30));
+		panel.add(lb_pass);
+		
+		pf_pass.setBounds(193, 140, 133, 24);
+		panel.add(pf_pass);
+		
+		bt_login.setBounds(25, 190, 85,35);
+		bt_login.setForeground(Color.BLACK);
+		bt_login.setFont(new Font("”◊‘≤",Font.BOLD,20));
+		panel.add(bt_login);
+		
+		bt_reset.setBounds(150, 190, 85, 35);
+		bt_reset.setForeground(Color.BLACK);
+		bt_reset.setFont(new Font("”◊‘≤",Font.BOLD,20));
+		panel.add(bt_reset);
+		
+		bt_customerLogin.setBounds(260,190,130,35);
+		bt_customerLogin.setForeground(Color.BLACK);
+		bt_customerLogin.setFont(new Font("”◊‘≤",Font.BOLD,20));
+		panel.add(bt_customerLogin);
+		
+		judgeStatus.setSize(150,40);
+		judgeStatus.setBounds(0, 20, 150, 40);
+		judgeStatus.setForeground(Color.PINK);
+		panel.add(judgeStatus);
+		
+		ImageIcon image=new ImageIcon("bg8.jpg");
+		JLabel lb_image=new JLabel(image);
+		lb_image.setBounds(0,0,420,280);
+		panel.add(lb_image);
+		
+		bt_reset.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				tf_name.setText("");
+				pf_pass.setText("");
+				judgeStatus.setText("«Î ‰»Î’À∫≈√‹¬Î");
+			}
+			});
+		bt_login.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent e)
+			{
+				String password=new String(pf_pass.getPassword());
+				if(tf_name.getText().equals(AdministratorSystem.UserName)&&password.equals(AdministratorSystem.PassWord)) {
+					mainJFrame.dispose();
+					AdministratorSystem.init();
+				}
+				else
+				{
+					pf_pass.setText("");
+					judgeStatus.setText(" ‰»Î¥ÌŒÛ£¨«Î’˝»∑ ‰»Î£°");
+				}
+				
+			}
+			});
+		bt_customerLogin.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				
+				
+				int j=0,k=0;
+				
+			        BufferedReader in;
+					try {
+						in = new BufferedReader(new FileReader("customer.doc"));
+						String s;
+			        try {
+						while((s=in.readLine())!=null) {
+							
+							if(k==4) {
+								j++;
+								k=0;
+							}
+						}
+						in.close();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+					}
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+					}
+		       customer=new Customer[j];
+		       j=0;
+		       k=0;
+		       try {
+					in = new BufferedReader(new FileReader("customer.doc"));
+					String s;
+		        try {
+					while((s=in.readLine())!=null) {
+						if(k==0)
+						{
+							customer[j].userName=new String(s);
+						}
+						else if(k==1)
+						{
+							customer[j].passWord=new String(s);
+						}
+						else if(k==2)
+						{
+							customer[j].VIP=Integer.valueOf(s);
+						}
+						else if(k==3)
+						{
+							customer[j].Residual=Double.valueOf(s);
+						}
+						if(k==4) {
+							j++;
+							k=0;
+						}
+					}
+					in.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+				}
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+				}
+				
+				
+		       
+		       	JLabel lb_customerLogin=new JLabel();
+				JLabel lb_name1=new JLabel();
+				JLabel lb_pass1=new JLabel();
+				JLabel judgeStatus1=new JLabel("«Î ‰»Î’À∫≈√‹¬Î");
+				
+				JTextField tf_name1=new JTextField();
+				JPasswordField pf_pass1=new JPasswordField();
+				
+				
+				
+				
+				
+				lb_customerLogin.setText("πÀøÕµ«¬ºΩÁ√Ê");
+				lb_customerLogin.setSize(100,20);
+				lb_customerLogin.setBounds(50, 50, 150, 30);
+				lb_customerLogin.setForeground(Color.green);
+				
+				
+				lb_name1.setText("’À ∫≈");
+				lb_name1.setSize(20,20);
+				lb_name1.setFont(new Font("“∂∏˘”—√´± –– È2.0∞Ê",Font.BOLD,30));
+				lb_name1.setBounds(210,175,100,50);
+				lb_name1.setForeground(Color.green);
+				
+				tf_name1.setBounds(293, 188, 133, 24);
+				
+				lb_pass1.setText("√‹¬Î");
+				lb_pass1.setSize(20, 20);
+				lb_pass1.setBounds(210, 225, 100, 50);
+				lb_pass1.setForeground(Color.green);
+				lb_pass1.setFont(new Font("“∂∏˘”—√´± –– È2.0∞Ê",Font.BOLD,30));
+				
+				pf_pass1.setBounds(293, 240, 133, 24);
+				
+				
+				
+				judgeStatus1.setSize(150,40);
+				judgeStatus1.setBounds(50, 80, 150, 40);
+				judgeStatus1.setForeground(Color.PINK);
+				
+		       
+		       
+		       
+		       
+		       
+		       
+				JButton bt_return1=new JButton("∑µªÿ");
+				JButton bt_login1=new JButton("µ«¬º");
+				JButton bt_reset1=new JButton("÷ÿ÷√");
+				JButton bt_register1=new JButton("◊¢≤·");
+				
+				
+				bt_return1.addActionListener(mainJFrame);
+				bt_return1.setBounds(100, 400, 100, 50);
+				bt_return1.setFont(new Font("”◊‘≤",Font.BOLD,24));
+				
+				bt_login1.addActionListener(mainJFrame);
+				bt_login1.setBounds(250, 400, 100, 50);
+				bt_login1.setFont(new Font("”◊‘≤",Font.BOLD,24));
+
+				bt_reset1.addActionListener(mainJFrame);
+				bt_reset1.setBounds(400, 400, 100, 50);
+				bt_reset1.setFont(new Font("”◊‘≤",Font.BOLD,24));
+				
+				bt_register1.addActionListener(mainJFrame);
+				bt_register1.setBounds(550, 400,100, 50);
+				bt_register1.setFont(new Font("”◊‘≤",Font.BOLD,24));
+				
+				
+				
+				dialog.removeAll();
+				dialog.setLayout(null);
+				dialog.setSize(800,500);
+				dialog.add(bt_return1);
+				dialog.add(bt_login1);
+				dialog.add(bt_reset1);
+				dialog.add(bt_register1);
+				dialog.add(judgeStatus1);
+				dialog.add(pf_pass1);
+				dialog.add(lb_pass1);
+				dialog.add(tf_name1);
+				dialog.add(lb_name1);
+				dialog.add(lb_customerLogin);
+				
+				dialog.setBounds(500, 300, 800, 500);
+				dialog.setVisible(true);
+						
+				JLabel lb_image1=new JLabel(new ImageIcon("dialog3.jpg"));
+				lb_image1.setBounds(0,0,800,500);
+				dialog.add(lb_image1);
+				
+				bt_login.addActionListener(new ActionListener(){
+
+					public void actionPerformed(ActionEvent e)
+					{
+						for(int i=0;i<customer.length;i++)
+						{
+							String password1=new String(pf_pass1.getPassword());
+							if(tf_name1.getText().equals(customer[i].userName)&&password1.equals(customer[i].passWord)) {
+								Customer.nowUserName=new String(tf_name1.getText());
+								dialog.dispose();
+						
+								
+								JButton bt_cancel1=new JButton("πÿ±’");
+								String s1=new String("µ«¬º≥…π¶£°");
+								JLabel jt1=new JLabel(s1);
+								jt1.setFont(new Font("”◊‘≤",Font.BOLD,40));
+								jt1.setForeground(Color.LIGHT_GRAY);
+								bt_cancel1.addActionListener(mainJFrame);
+								bt_cancel1.setBounds(300, 400, 120, 60);
+								bt_cancel1.setFont(new Font("”◊‘≤",Font.BOLD,24));
+								
+								
+								jt1.setBounds(250, 100, 400, 300);
+								
+								dialog.removeAll();
+								dialog.setLayout(null);
+								dialog.setSize(800,500);
+								dialog.add(bt_cancel1);
+
+								dialog.add(jt1);
+								dialog.setBounds(500, 300, 800, 500);
+								dialog.setVisible(true);
+										
+								JLabel lb_image1=new JLabel(new ImageIcon("dialog3.jpg"));
+								lb_image1.setBounds(0,0,800,500);
+								dialog.add(lb_image1);
+							}
+							
+						}
+
+	
+							pf_pass.setText("");
+							judgeStatus.setText(" ‰»Î¥ÌŒÛ£¨«Î’˝»∑ ‰»Î£°");
+							
+					}
+					});
+			}
+			});
+		
+		return panel;
+	}
+	public static void init() {
+		mainJFrame.setTitle("µ«¬ºΩÁ√Ê");
+		mainJFrame.setBounds(0,0,420,280);
+		mainJFrame.setLocationRelativeTo(null);
+		mainJFrame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		mainJFrame.setResizable(false);
+		Container container=mainJFrame.getContentPane();
+		container.setLayout(new BorderLayout());
+		
+		Component cpn_loginPanel=makeLoginPanel();
+		container.add(cpn_loginPanel,BorderLayout.CENTER);
+		
+		
+		mainJFrame.addWindowListener(wlist);
+		mainJFrame.setVisible(true);
+		
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(((JButton)e.getSource()).getText().equals("∑µªÿ"))
+		{
+			dialog.dispose();
+		}
+		if(((JButton)e.getSource()).getText().equals("πÿ±’"))
+		{
+			mainJFrame.dispose();
+			dialog.dispose();
+			OrderSystem.init();
+		}
+		if(((JButton)e.getSource()).getText().equals("◊¢≤·"))
+		{
+			int j=0,k=0;
+			
+	        BufferedReader in;
+			try {
+				in = new BufferedReader(new FileReader("customer.doc"));
+				String s;
+	        try {
+				while((s=in.readLine())!=null) {
+					
+					if(k==4) {
+						j++;
+						k=0;
+					}
+				}
+				in.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+			}
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+			}
+       Customer[] customer=new Customer[j];
+       j=0;
+       k=0;
+       try {
+			in = new BufferedReader(new FileReader("customer.doc"));
+			String s;
+        try {
+			while((s=in.readLine())!=null) {
+				if(k==0)
+				{
+					customer[j].userName=new String(s);
+				}
+				else if(k==1)
+				{
+					customer[j].passWord=new String(s);
+				}
+				else if(k==2)
+				{
+					customer[j].VIP=Integer.valueOf(s);
+				}
+				else if(k==3)
+				{
+					customer[j].Residual=Double.valueOf(s);
+				}
+				if(k==4) {
+					j++;
+					k=0;
+				}
+			}
+			in.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+		}
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+		}
+			dialog.dispose();
+			JButton bt_return=new JButton("∑µªÿ");
+			JButton bt_register=new JButton("◊¢≤·");
+			
+			bt_return.addActionListener(mainJFrame);
+			bt_return.setBounds(100, 400, 100, 50);
+			bt_return.setFont(new Font("”◊‘≤",Font.BOLD,24));
+			
+			
+			
+			bt_register.addActionListener(mainJFrame);
+			bt_register.setBounds(550, 400,100, 50);
+			bt_register.setFont(new Font("”◊‘≤",Font.BOLD,24));
+			
+			
+			
+			dialog.removeAll();
+			dialog.setLayout(null);
+			dialog.setSize(800,500);
+			dialog.add(bt_return);
+			
+			dialog.add(bt_register);
+
+			dialog.setBounds(500, 300, 800, 500);
+			dialog.setVisible(true);
+					
+			JLabel lb_image1=new JLabel(new ImageIcon("dialog3.jpg"));
+			lb_image1.setBounds(0,0,800,500);
+			dialog.add(lb_image1);
+		}
+	}
+
+		
+}

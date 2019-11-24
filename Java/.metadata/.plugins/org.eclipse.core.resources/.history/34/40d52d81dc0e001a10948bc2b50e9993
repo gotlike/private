@@ -1,0 +1,8 @@
+
+public class Customer {
+	static String nowUserName="";
+	String userName="";
+	String passWord="";
+	int VIP=0;
+	double Residual=0;
+}

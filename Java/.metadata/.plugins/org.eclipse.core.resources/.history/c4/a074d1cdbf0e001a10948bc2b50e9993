@@ -1,0 +1,163 @@
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+public class MenuItemActionListener extends JFrame implements ActionListener {
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(((JMenuItem)e.getSource()).getText().equals("我的订单"))
+		{
+			System.out.println("我的订单");
+		}
+		if(((JMenuItem)e.getSource()).getText().equals("充值"))
+		{
+			System.out.println("充值");
+		}
+		if(((JMenuItem)e.getSource()).getText().equals("查看余额"))
+		{
+			System.out.println("查看余额");
+		}
+		if(((JMenuItem)e.getSource()).getText().equals("退出系统"))
+		{
+			if(OrderSystem.oddStatus!=0)
+			{
+				OrderSystem.dialog.dispose();
+				JButton bt_cancel1=new JButton("关闭");
+				String s1=new String("请先结账！");
+				JLabel jt1=new JLabel(s1);
+				jt1.setFont(new Font("叶根友毛笔行书2.0版",Font.BOLD,40));
+				jt1.setForeground(Color.LIGHT_GRAY);
+				bt_cancel1.addActionListener(OrderSystem.mainJFrame);
+				bt_cancel1.setBounds(300, 400, 120, 60);
+				bt_cancel1.setFont(new Font("幼圆",Font.BOLD,24));
+				
+				
+				jt1.setBounds(250, 100, 400, 300);
+				
+				OrderSystem.dialog.removeAll();
+				OrderSystem.dialog.setLayout(null);
+				OrderSystem.dialog.setSize(800,500);
+				OrderSystem.dialog.add(bt_cancel1);
+
+				OrderSystem.dialog.add(jt1);
+				OrderSystem.dialog.setBounds(500, 300, 800, 500);
+				OrderSystem.dialog.setVisible(true);
+						
+				JLabel lb_image1=new JLabel(new ImageIcon("dialog3.jpg"));
+				lb_image1.setBounds(0,0,800,500);
+				OrderSystem.dialog.add(lb_image1);
+				return;
+			}
+			OrderSystem.mainJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
+		if(((JMenuItem)e.getSource()).getText().equals("退出登录"))
+		{
+			if(OrderSystem.oddStatus!=0)
+			{
+				OrderSystem.dialog.dispose();
+				JButton bt_cancel1=new JButton("关闭");
+				String s1=new String("请先结账！");
+				JLabel jt1=new JLabel(s1);
+				jt1.setFont(new Font("叶根友毛笔行书2.0版",Font.BOLD,40));
+				jt1.setForeground(Color.LIGHT_GRAY);
+				bt_cancel1.addActionListener(OrderSystem.mainJFrame);
+				bt_cancel1.setBounds(300, 400, 120, 60);
+				bt_cancel1.setFont(new Font("幼圆",Font.BOLD,24));
+				
+				
+				jt1.setBounds(250, 100, 400, 300);
+				
+				OrderSystem.dialog.removeAll();
+				OrderSystem.dialog.setLayout(null);
+				OrderSystem.dialog.setSize(800,500);
+				OrderSystem.dialog.add(bt_cancel1);
+
+				OrderSystem.dialog.add(jt1);
+				OrderSystem.dialog.setBounds(500, 300, 800, 500);
+				OrderSystem.dialog.setVisible(true);
+						
+				JLabel lb_image1=new JLabel(new ImageIcon("dialog3.jpg"));
+				lb_image1.setBounds(0,0,800,500);
+				OrderSystem.dialog.add(lb_image1);
+				return;
+			}
+			OrderSystem.mainJFrame.dispose();
+			LoginWindows.init();
+		}
+		if(((JMenuItem)e.getSource()).getText().equals("宋体")||((JMenuItem)e.getSource()).getText().equals("幼圆")||((JMenuItem)e.getSource()).getText().equals("叶根友毛笔行书2.0版")||((JMenuItem)e.getSource()).getText().equals("黑")||((JMenuItem)e.getSource()).getText().equals("蓝")||((JMenuItem)e.getSource()).getText().equals("灰")||((JMenuItem)e.getSource()).getText().equals("绿")||((JMenuItem)e.getSource()).getText().equals("橙")||((JMenuItem)e.getSource()).getText().equals("粉红")||((JMenuItem)e.getSource()).getText().equals("红")||((JMenuItem)e.getSource()).getText().equals("黄")||((JMenuItem)e.getSource()).getText().equals("大")||((JMenuItem)e.getSource()).getText().equals("中")||((JMenuItem)e.getSource()).getText().equals("小"))
+		{
+			System.out.println(((JMenuItem)e.getSource()).getText());
+		}
+	}
+	public static Component makeRecordPanel() {
+		
+		String[][] a=new String [1000000][7];
+		int j=0,k=0;
+		for(int i=1;i<=50;i++) {
+	        BufferedReader in;
+			try {
+				in = new BufferedReader(new FileReader("00"+i+".doc"));
+				String s;
+	        try {
+				while((s=in.readLine())!=null) {
+					a[j][k++]=new String(s);
+					if(k==7) {
+						j++;
+						k=0;
+					}
+				}
+				in.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+			}
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+			}
+        }
+		JPanel panel2=new JPanel();
+		DefaultTableModel tableModel=new DefaultTableModel(a,dishListName);
+		JTable table =new JTable(tableModel);
+		JScrollPane scrollpane2=new JScrollPane(table);
+		GridBagLayout gridbag=new GridBagLayout();
+		GridBagConstraints constraints=new GridBagConstraints();	
+		constraints.fill=GridBagConstraints.BOTH;
+			
+		constraints.anchor=constraints.NORTHWEST;
+		scrollpane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+			
+		panel2.setLayout(gridbag);
+			
+			
+		constraints.weightx=1;
+		constraints.weighty=5;
+		constraints.gridwidth=GridBagConstraints.REMAINDER;
+		gridbag.setConstraints(scrollpane2,constraints);
+		panel2.add(scrollpane2);
+		
+		
+
+
+		panel2.setBounds(0, 0, 850, 700);
+		return panel2;
+	}
+}

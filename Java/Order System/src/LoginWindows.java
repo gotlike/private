@@ -1,11 +1,15 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
 import javax.swing.*;
 public class LoginWindows extends JFrame {
 	static LoginWindows mainJFrame=new LoginWindows();
 	static LWinListener wlist=new LWinListener();
+
 	protected static Component makeLoginPanel() {
 		JPanel panel=new JPanel();
 		
@@ -103,8 +107,10 @@ public class LoginWindows extends JFrame {
 			public void actionPerformed(ActionEvent e)
 			{
 				
+				
 				mainJFrame.dispose();
 				OrderSystem.init();
+				
 			}
 			});
 		
@@ -127,6 +133,9 @@ public class LoginWindows extends JFrame {
 		mainJFrame.setVisible(true);
 		
 	}
+	
+	
+	
 
 		
 }

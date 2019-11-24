@@ -1,10 +1,13 @@
 import java.awt.*;
+import java.awt.List;
 import java.util.*;
 import java.awt.event.*;
 import java.io.*;
 import java.text.DateFormat;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 @SuppressWarnings("serial")
 public class OrderSystem extends JFrame implements ActionListener{
@@ -53,21 +56,39 @@ public class OrderSystem extends JFrame implements ActionListener{
 	static JButton[] bt_Menu=new JButton[6];
 	static JButton[] bt_dish=new JButton[36];
 	
+	
+	static JMenuBar menuBar=new JMenuBar();
+	static JMenu menu[]=new JMenu[3];
+	static JMenuItem menuItem[]=new JMenuItem[27];
+	
+
+	static String[] menuString= {"系统"};
+	static String[] menuItemString= {"退出系统","退出登录","字体样式","字体颜色","宋体","幼圆","叶根友毛笔行书2.0版","黑","蓝","灰","绿","橙","粉红","红","黄","退出系统","退出登录"};
 	static String[] dishListName= {"菜品","数量","金额"};
 	static String[] Menu= {"热销菜式","川菜","拌菜","点心","家常菜","小吃"};
 	static String[] deskNum= {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50"};
 	static String[] dishName= {"布袋回锅肉","剁椒鱼头","辣子鸡","麻婆豆腐","烤鱼","豆干","火龙果炒澳带","老卤酱牛肉","凉拌金针菇","凉拌秋葵","蔬果杂烩拌菜","西柚大拌菜","叉烧酥点心","焦糖布丁","螺旋藻水饺点心","巧克力块","韭菜盒子点心","水果糯点心","干煸肉丝","宫爆鸡丁","红烧鸽子","芥菜肉汤","蒜苔炒腊肉","鱼香茄子","牛排小吃","陕北特色小吃","特色小吃春卷","鲜脆油炸小吃","红豆黄金饼","炸柿子糕","布袋回锅肉","剁椒鱼头","焦糖布丁","巧克力块","宫爆鸡丁","红烧鸽子"};
-	static String[] dishprice= {"45元","55元","45元","35元","45元","25元","35元","45元","45元","45元","25元","25元","45元","15元","35元","45元","45元","45元","45元","45元","25元","45元","45元","35元","45元","25元","15元","15元","15元","15元","45元","55元","15元","35元","45元","45元"};
+	static String[] dishprice= {"45元","55元","45元","35元","45元","25元","35元","45元","45元","45元","25元","25元","45元","15元","35元","45元","45元","45元","45元","45元","25元","45元","45元","35元","45元","25元","15元","15元","15元","15元","45元","55元","15元","45元","45元","25元"};
 	static double[] price= {45,55,45,35,45,25,35,45,45,45,25,25,45,15,35,45,45,45,45,45,25,45,45,35,45,25,15,15,15,15,45,55,15,45,45,25};
 	
-	static Object[][] dishList=new Object[30][3];
+	static Object[][] dishList=new Object[31][3];
 	
 	static JComboBox JCb_deskNum=new JComboBox(deskNum);
 	static Container container=mainJFrame.getContentPane();
 	
 	static Dialog dialog=new Dialog(mainJFrame);
-
+	
+	static int oddNumber=0;
+	
+	static String fontType=new String("叶根友毛笔行书2.0版");
+	static Color fontColor=Color.gray;
+	
+	static int oddStatus=0;
+	
+	
 	public static void init() {
+		mainJFrame=new OrderSystem();
+		container=mainJFrame.getContentPane();
 		mainJFrame.setTitle("点餐系统");
 		mainJFrame.setBounds(0,0,1200,900);
 		mainJFrame.setLocationRelativeTo(null);
@@ -76,6 +97,79 @@ public class OrderSystem extends JFrame implements ActionListener{
 		container.setLayout(null);
 		container.setLayout(new BorderLayout());
 		
+		container.removeAll();
+		PN_Dish1=new JPanel();
+		PN_Dish2=new JPanel();
+		PN_Dish3=new JPanel();
+		PN_Dish4=new JPanel();
+		PN_Dish5=new JPanel();
+		PN_Dish6=new JPanel();
+		JTabPN_Dish=new JTabbedPane();
+		MenuDirect=new JTabbedPane();
+		panel=new JPanel();
+		bt_Menu=new JButton[6];
+		menuBar=new JMenuBar();
+		menuItem=new JMenuItem[27];
+		menu=new JMenu[3];
+		pn_menuPanel=new JPanel();
+		
+		
+		try {
+			BufferedWriter ws=new BufferedWriter(new OutputStreamWriter(new FileOutputStream("oddNumber.doc",true)));
+			ws.close();
+			BufferedReader s=new BufferedReader(new InputStreamReader(new FileInputStream("oddNumber.doc")));
+			oddNumber=(int)(new BufferedReader(new InputStreamReader(new FileInputStream("oddNumber.doc"))).read());
+			if(oddNumber<=0)
+			{
+				oddNumber=1;
+			}
+
+		} catch (FileNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		
+		
+			menu[0]=new JMenu(menuString[0]);
+			menuBar.add(menu[0]);
+			menu[0].setForeground(fontColor);
+		
+		for(int i=0;i<4;i++) {
+			menuItem[i]=new JMenu(menuItemString[i]);
+			
+			menu[0].add(menuItem[i]);
+
+			
+			if(i<2)	
+			{
+				menuItem[i+15]=new JMenuItem(menuItemString[i+15]);
+				menuItem[i+15].addActionListener(new MenuItemActionListener());
+				menuItem[i].add(menuItem[(i+15)]);
+			}
+			menuItem[i].setForeground(fontColor);
+		}
+		for(int i=4;i<7;i++)
+		{
+			
+			menuItem[i]=new JMenuItem(menuItemString[i]);
+			menuItem[i].addActionListener(new MenuItemActionListener());
+			menuItem[2].add(menuItem[i]);
+			menuItem[i].setForeground(fontColor);
+		}
+		for(int i=7;i<15;i++)
+		{
+			
+			menuItem[i]=new JMenuItem(menuItemString[i]);
+			menuItem[i].addActionListener(new MenuItemActionListener());
+			menuItem[3].add(menuItem[i]);
+			menuItem[i].setForeground(fontColor);
+		}
+		menuBar.setBounds(0, 0, 50, 30);
+		panel.add(menuBar);
 		
 		PN_Dish1.setLayout(null);
 		PN_Dish2.setLayout(null);
@@ -90,7 +184,7 @@ public class OrderSystem extends JFrame implements ActionListener{
 		JTabPN_Dish.addTab(Menu[4], null,PN_Dish5 , "");
 		JTabPN_Dish.addTab(Menu[5], null,PN_Dish6 , "");
 		JTabPN_Dish.setBounds(250, 100, 600, 650);
-		container.add(JTabPN_Dish);
+		panel.add(JTabPN_Dish);
 		
 		
 		
@@ -122,7 +216,7 @@ public class OrderSystem extends JFrame implements ActionListener{
 						JButton bt_close=new JButton("关闭");
 						String s=new String();
 						try {
-							s=new BufferedReader(new InputStreamReader(new FileInputStream(""+(i+1)+".doc"),"GB2312")).readLine();
+							s=new BufferedReader(new InputStreamReader(new FileInputStream(""+(i+1)+".doc"),"UTF-8")).readLine();
 						} catch (FileNotFoundException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
@@ -137,11 +231,11 @@ public class OrderSystem extends JFrame implements ActionListener{
 						jt.setWrapStyleWord(true);
 						jt.setLayout(new FlowLayout());
 						jt.setEditable(false);
-						jt.setFont(new Font("叶根友毛笔行书2.0版",Font.BOLD,22));
-						jt.setForeground(Color.LIGHT_GRAY);
+						jt.setFont(new Font(fontType,Font.BOLD,22));
+						jt.setForeground(fontColor);
 						bt_close.addActionListener(mainJFrame);
 						bt_close.setBounds(350, 400, 100, 60);
-						bt_close.setFont(new Font("幼圆",Font.BOLD,24));
+						bt_close.setFont(new Font(fontType,Font.BOLD,24));
 						jt.setBounds(50, 100, 700, 300);
 						dialog.removeAll();
 						dialog.setLayout(null);
@@ -164,24 +258,28 @@ public class OrderSystem extends JFrame implements ActionListener{
 			String str=new String(dishName[i]+"   "+dishprice[i]);
 			lb_dish[i]=new JLabel(str);
 			lb_dish[i].setSize(200, 50);
+			lb_dish[i].setForeground(fontColor);
 			
 		}
 		for(int i=0;i<36;i++){
 
 			lb_num[i]=new JLabel("0");
 			lb_num[i].setSize(40, 20);
+			lb_num[i].setForeground(fontColor);
 			bt_dishadd[i]=new JButton("+");
 			bt_dishadd[i].setSize(20, 20);
+			bt_dishadd[i].setForeground(fontColor);
 			bt_dishreduce[i]=new JButton("-");
 			bt_dishreduce[i].setSize(20, 20);
+			bt_dishreduce[i].setForeground(fontColor);
 			jck_dishchoose[i]=new JCheckBox();
 			jck_dishchoose[i].setSize(20, 20);
-			
+			jck_dishchoose[i].setForeground(fontColor);
 		}
 		for(int i=0;i<36;i++){
 			lb_dishButton[i]=new JPanel(null);
 			
-			lb_dish[i].setFont(new Font("叶根友毛笔行书2.0版",Font.BOLD,20));
+			lb_dish[i].setFont(new Font(fontType,Font.BOLD,20));
 			bt_dishImage[i].setBounds(0,0,200, 200);
 			lb_dish[i].setBounds(0, 200, 200, 50);
 			jck_dishchoose[i].setBounds(0,250 , 30, 50);
@@ -197,96 +295,38 @@ public class OrderSystem extends JFrame implements ActionListener{
 			lb_dishButton[i].add(bt_dishadd[i]);
 			
 			
-			PN_Dish2.add(lb_dishButton[i]);
-			if(i<6) {
+			if(i<6) 
+			{
 				PN_Dish2.add(lb_dishButton[i]);
-				if(i==0)
-					lb_dishButton[i].setBounds(0, 0, 200, 300);
-				if(i==1)
-					lb_dishButton[i].setBounds(200, 0, 200, 300);
-				if(i==2)
-					lb_dishButton[i].setBounds(400, 0, 200, 300);
-				if(i==3)
-					lb_dishButton[i].setBounds(0, 300, 200, 300);
-				if(i==4)
-					lb_dishButton[i].setBounds(200, 300, 200, 300);
-				if(i==5)
-					lb_dishButton[i].setBounds(400, 300, 200, 300);
 			}
-			if(i>=6&&i<12) {
-				PN_Dish3.add(lb_dishButton[i]);
-				if(i==6)
+				if(i==0||i==6||i==12||i==18||i==24||i==30)
 					lb_dishButton[i].setBounds(0, 0, 200, 300);
-				if(i==7)
+				if(i==1||i==7||i==13||i==19||i==25||i==31)
 					lb_dishButton[i].setBounds(200, 0, 200, 300);
-				if(i==8)
+				if(i==2||i==8||i==14||i==20||i==26||i==32)
 					lb_dishButton[i].setBounds(400, 0, 200, 300);
-				if(i==9)
+				if(i==3||i==9||i==15||i==21||i==27||i==33)
 					lb_dishButton[i].setBounds(0, 300, 200, 300);
-				if(i==10)
+				if(i==4||i==10||i==16||i==22||i==28||i==34)
 					lb_dishButton[i].setBounds(200, 300, 200, 300);
-				if(i==11)
+				if(i==5||i==11||i==17||i==23||i==29||i==35)
 					lb_dishButton[i].setBounds(400, 300, 200, 300);
+
+			if(i>=6&&i<12) 
+			{
+				PN_Dish3.add(lb_dishButton[i]);
 			}
 			if(i>=12&&i<18) {
 				PN_Dish4.add(lb_dishButton[i]);
-				if(i==12)
-					lb_dishButton[i].setBounds(0, 0, 200, 300);
-				if(i==13)
-					lb_dishButton[i].setBounds(200, 0, 200, 300);
-				if(i==14)
-					lb_dishButton[i].setBounds(400, 0, 200, 300);
-				if(i==15)
-					lb_dishButton[i].setBounds(0, 300, 200, 300);
-				if(i==16)
-					lb_dishButton[i].setBounds(200, 300, 200, 300);
-				if(i==17)
-					lb_dishButton[i].setBounds(400, 300, 200, 300);
 			}
 			if(i>=18&&i<24) {
 				PN_Dish5.add(lb_dishButton[i]);
-				if(i==18)
-					lb_dishButton[i].setBounds(0, 0, 200, 300);
-				if(i==19)
-					lb_dishButton[i].setBounds(200, 0, 200, 300);
-				if(i==20)
-					lb_dishButton[i].setBounds(400, 0, 200, 300);
-				if(i==21)
-					lb_dishButton[i].setBounds(0, 300, 200, 300);
-				if(i==22)
-					lb_dishButton[i].setBounds(200, 300, 200, 300);
-				if(i==23)
-					lb_dishButton[i].setBounds(400, 300, 200, 300);
 			}
 			if(i>=24&&i<30) {
 				PN_Dish6.add(lb_dishButton[i]);
-				if(i==24)
-					lb_dishButton[i].setBounds(0, 0, 200, 300);
-				if(i==25)
-					lb_dishButton[i].setBounds(200, 0, 200, 300);
-				if(i==26)
-					lb_dishButton[i].setBounds(400, 0, 200, 300);
-				if(i==27)
-					lb_dishButton[i].setBounds(0, 300, 200, 300);
-				if(i==28)
-					lb_dishButton[i].setBounds(200, 300, 200, 300);
-				if(i==29)
-					lb_dishButton[i].setBounds(400, 300, 200, 300);
 			}
 			if(i>=30&&i<36) {
 				PN_Dish1.add(lb_dishButton[i]);
-				if(i==30)
-					lb_dishButton[i].setBounds(0, 0, 200, 300);
-				if(i==31)
-					lb_dishButton[i].setBounds(200, 0, 200, 300);
-				if(i==32)
-					lb_dishButton[i].setBounds(400, 0, 200, 300);
-				if(i==33)
-					lb_dishButton[i].setBounds(0, 300, 200, 300);
-				if(i==34)
-					lb_dishButton[i].setBounds(200, 300, 200, 300);
-				if(i==35)
-					lb_dishButton[i].setBounds(400, 300, 200, 300);
 			}
 			
 			
@@ -308,64 +348,42 @@ public class OrderSystem extends JFrame implements ActionListener{
 						{
 							j=30;
 							status=1;
-						}
-						if(i==1)
-						{
+						}else if(i==1){
 							j=31;
 							status=1;
-						}
-						if(i==13)
-						{
+						}else if(i==13){
 							j=32;
 							status=1;
-						}
-						if(i==15)
-						{
+						}else if(i==15){
 							j=33;
 							status=1;
-						}
-						if(i==19)
-						{
+						}else if(i==19){
 							j=34;
 							status=1;
-						}
-						if(i==20)
-						{
+						}else if(i==20){
 							j=35;
 							status=1;
-						}
-						if(i==30)
-						{
+						}else if(i==30){
 							j=0;
 							status=1;
-						}
-						if(i==31)
-						{
+						}else if(i==31){
 							j=1;
 							status=1;
-						}
-						if(i==32)
-						{
+						}if(i==32){
 							j=13;
 							status=1;
-						}
-						if(i==33)
-						{
+						}else if(i==33){
 							j=15;
 							status=1;
-						}
-						if(i==34)
-						{
+						}else if(i==34){
 							j=19;
 							status=1;
-						}
-						if(i==35)
-						{
+						}else if(i==35){
 							j=20;
 							status=1;
 						}
-						if(j<36)
-						{
+						
+						if(j<36){
 							if(num[i]==0) {
 								jck_dishchoose[i].setSelected(true);
 								if(status==1)
@@ -413,59 +431,37 @@ public class OrderSystem extends JFrame implements ActionListener{
 						{
 							j=30;
 							status=1;
-						}
-						if(i==1)
-						{
+						}else if(i==1){
 							j=31;
 							status=1;
-						}
-						if(i==13)
-						{
+						}else if(i==13){
 							j=32;
 							status=1;
-						}
-						if(i==15)
-						{
+						}else if(i==15){
 							j=33;
 							status=1;
-						}
-						if(i==19)
-						{
+						}else if(i==19){
 							j=34;
 							status=1;
-						}
-						if(i==20)
-						{
+						}else if(i==20){
 							j=35;
 							status=1;
-						}
-						if(i==30)
-						{
+						}else if(i==30){
 							j=0;
 							status=1;
-						}
-						if(i==31)
-						{
+						}else if(i==31){
 							j=1;
 							status=1;
-						}
-						if(i==32)
-						{
+						}if(i==32){
 							j=13;
 							status=1;
-						}
-						if(i==33)
-						{
+						}else if(i==33){
 							j=15;
 							status=1;
-						}
-						if(i==34)
-						{
+						}else if(i==34){
 							j=19;
 							status=1;
-						}
-						if(i==35)
-						{
+						}else if(i==35){
 							j=20;
 							status=1;
 						}
@@ -533,59 +529,37 @@ public class OrderSystem extends JFrame implements ActionListener{
 						{
 							j=30;
 							status=1;
-						}
-						if(i==1)
-						{
+						}else if(i==1){
 							j=31;
 							status=1;
-						}
-						if(i==13)
-						{
+						}else if(i==13){
 							j=32;
 							status=1;
-						}
-						if(i==15)
-						{
+						}else if(i==15){
 							j=33;
 							status=1;
-						}
-						if(i==19)
-						{
+						}else if(i==19){
 							j=34;
 							status=1;
-						}
-						if(i==20)
-						{
+						}else if(i==20){
 							j=35;
 							status=1;
-						}
-						if(i==30)
-						{
+						}else if(i==30){
 							j=0;
 							status=1;
-						}
-						if(i==31)
-						{
+						}else if(i==31){
 							j=1;
 							status=1;
-						}
-						if(i==32)
-						{
+						}if(i==32){
 							j=13;
 							status=1;
-						}
-						if(i==33)
-						{
+						}else if(i==33){
 							j=15;
 							status=1;
-						}
-						if(i==34)
-						{
+						}else if(i==34){
 							j=19;
 							status=1;
-						}
-						if(i==35)
-						{
+						}else if(i==35){
 							j=20;
 							status=1;
 						}
@@ -640,14 +614,18 @@ public class OrderSystem extends JFrame implements ActionListener{
 		}
 	
 		lb_welcome.setBounds(400, 0, 800, 100);
-		lb_welcome.setFont(new Font("叶根友毛笔行书2.0版",Font.BOLD,36));
-		lb_welcome.setForeground(Color.orange);
+		lb_welcome.setFont(new Font(fontType,Font.BOLD,36));
+		lb_welcome.setForeground(fontColor);
 		panel.add(lb_welcome);
 		
-		bt_cancel.setBounds(300, 800, 100, 50);
-		bt_Orders.setBounds(450, 800, 100, 50);
-		bt_addOrder.setBounds(600,800, 100,50);
-		bt_checkOut.setBounds(750, 800, 100, 50);
+		bt_cancel.setBounds(300, 800, 100, 30);
+		bt_Orders.setBounds(450, 800, 100, 30);
+		bt_addOrder.setBounds(600,800, 100,30);
+		bt_checkOut.setBounds(750, 800, 100, 30);
+		bt_cancel.setForeground(fontColor);
+		bt_Orders.setForeground(fontColor);
+		bt_addOrder.setForeground(fontColor);
+		bt_checkOut.setForeground(fontColor);
 		panel.add(bt_cancel);
 		panel.add(bt_Orders);
 		panel.add(bt_addOrder);
@@ -655,7 +633,9 @@ public class OrderSystem extends JFrame implements ActionListener{
 		
 		pn_menuPanel.setLayout(null);	
 		for(int i=0;i<6;i++) {
+			
 			bt_Menu[i]=new JButton(Menu[i]);
+			bt_Menu[i].setForeground(fontColor);
 			bt_Menu[i].setBounds(30, 10+i*100, 160, 50);
 			pn_menuPanel.add(bt_Menu[i]);
 			
@@ -671,38 +651,38 @@ public class OrderSystem extends JFrame implements ActionListener{
 		panel.add(MenuDirect);
 		
 		lb_orderListLabel.setBounds(900, 100, 150, 50);
-		lb_orderListLabel.setFont(new Font("叶根友毛笔行书2.0版",Font.BOLD,20));
-		lb_orderListLabel.setForeground(Color.green);
+		lb_orderListLabel.setFont(new Font(fontType,Font.BOLD,20));
+		lb_orderListLabel.setForeground(fontColor);
 		panel.add(lb_orderListLabel);
 		
 		JCb_deskNum.setBounds(900, 150, 150, 30);
 		panel.add(JCb_deskNum);
 		
-		lb_orderPeoplesLabel.setFont(new Font("叶根友毛笔行书2.0版",Font.BOLD,20));
+		lb_orderPeoplesLabel.setFont(new Font(fontType,Font.BOLD,20));
 		panel.add(lb_orderPeoplesLabel);
 		
 		lb_orderPeoplesLabel.setBounds(900,200,200,50);
-		lb_orderPeoplesLabel.setForeground(Color.green);
+		lb_orderPeoplesLabel.setForeground(fontColor);
 		panel.add(tf_orderPeoplesLabel);
 		
 		tf_orderPeoplesLabel.setBounds(900, 250, 150, 30);
-		lb_orderMenuListLabel.setFont(new Font("叶根友毛笔行书2.0版",Font.BOLD,20));
+		lb_orderMenuListLabel.setFont(new Font(fontType,Font.BOLD,20));
 		panel.add(lb_orderMenuListLabel);
 		
-		lb_totalBill.setFont(new Font("叶根友毛笔行书2.0版",Font.BOLD,20));
+		lb_totalBill.setFont(new Font(fontType,Font.BOLD,20));
 		panel.add(lb_totalBill);
 		
 		lb_totalBill.setBounds(900,750,200,50);
-		lb_totalBill.setForeground(Color.green);
+		lb_totalBill.setForeground(fontColor);
 		
 		
-		
+		container.add(makeRecordPanel());
 		JLabel lb_image=new JLabel(new ImageIcon("bg6.jpg"));
 		lb_image.setBounds(0,0,1200,900);
 		panel.add(lb_image);
 		
 		
-		container.add(makeRecordPanel());
+		
 		container.add(panel);
 		mainJFrame.addWindowListener(wlist);
 		mainJFrame.setVisible(true);
@@ -737,41 +717,249 @@ public class OrderSystem extends JFrame implements ActionListener{
 				container.add(JTabPN_Dish);
 				container.add(panel);
 				UPdate();
+				{
+					
+					JButton bt_close=new JButton("关闭");
+					String s=new String("取消成功！");
+					JLabel jt=new JLabel(s);
+					jt.setFont(new Font(fontType,Font.BOLD,40));
+					jt.setForeground(fontColor);
+					bt_close.addActionListener(mainJFrame);
+					bt_close.setBounds(350, 400, 100, 60);
+					bt_close.setFont(new Font(fontType,Font.BOLD,24));
+					jt.setBounds(300, 100, 400, 300);
+					dialog.removeAll();
+					dialog.setLayout(null);
+					dialog.setSize(800,500);
+					dialog.add(bt_close);
+					dialog.add(jt);
+					dialog.setBounds(500, 300, 800, 500);
+					dialog.setVisible(true);
+						
+					JLabel lb_image=new JLabel(new ImageIcon("dialog3.jpg"));
+					lb_image.setBounds(0,0,800,500);
+					dialog.add(lb_image);
+
+					
+				}
 			}
 			});
 		
 		bt_Orders.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
+				
 				String i=JCb_deskNum.getSelectedItem().toString();
 				try {
 					BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-					DataOutputStream dos=new DataOutputStream(new FileOutputStream("00"+i+".doc"));
-					BufferedWriter bw = new BufferedWriter(new FileWriter("00"+i+".doc"));
+					DataOutputStream dos=new DataOutputStream(new FileOutputStream("00"+i+".doc",true));
+					BufferedWriter bw = new BufferedWriter(new FileWriter("00"+i+".doc",true));
+					int people=0;
+					if(!tf_orderPeoplesLabel.getText().equals(""))
+					{
+						people=Integer.parseInt(tf_orderPeoplesLabel.getText());
+					}
+					else
+					{
+									
+								JButton bt_close=new JButton("关闭");
+								String s=new String("请输入用餐人数！");
+								JLabel jt=new JLabel(s);
+								jt.setFont(new Font(fontType,Font.BOLD,40));
+								jt.setForeground(fontColor);
+								bt_close.addActionListener(mainJFrame);
+								bt_close.setBounds(350, 400, 100, 60);
+								bt_close.setFont(new Font(fontType,Font.BOLD,24));
+								jt.setBounds(250, 100, 400, 300);
+								dialog.removeAll();
+								dialog.setLayout(null);
+								dialog.setSize(800,500);
+								dialog.add(bt_close);
+								dialog.add(jt);
+								dialog.setBounds(500, 300, 800, 500);
+								dialog.setVisible(true);
+										
+								JLabel lb_image=new JLabel(new ImageIcon("dialog3.jpg"));
+								lb_image.setBounds(0,0,800,500);
+								dialog.add(lb_image);
+								return;	
+									
 
-
+									
+						}
+					oddNumber++;
+					oddStatus++;
 					for(int j=0;j<30;j++) {
 						String desknum=new String(JCb_deskNum.getSelectedItem().toString());
-						int people=0;
-						if(!tf_orderPeoplesLabel.getText().equals(""))
-						{
-							people=Integer.parseInt(tf_orderPeoplesLabel.getText());
-						}
+						
 						String time=getTime();
 						int number=	num[j];
 						if(num[j]==0)
 							continue;
 						String dish=new String(dishName[j]);
-						double total=number*price[j];
+						double totalPrice=number*price[j];
 						
+						bw.write(oddNumber+"\n");
 						bw.write(desknum+"\n");
 						bw.write(String.valueOf(people)+"\n");
 						bw.write(time+"\n");
 						bw.write(dish+"\n");
 						bw.write(String.valueOf(number)+"\n");
-						bw.write(String.valueOf(total)+"\n");
+						bw.write(String.valueOf(totalPrice)+"\n");
 						
+						
+						
+						{
+				
+						JButton bt_close=new JButton("关闭");
+						String s1=new String("下单成功！");
+						JLabel jt1=new JLabel(s1);
+						jt1.setFont(new Font(fontType,Font.BOLD,40));
+						jt1.setForeground(fontColor);
+						bt_close.addActionListener(mainJFrame);
+						bt_close.setBounds(350, 400, 100, 60);
+						bt_close.setFont(new Font(fontType,Font.BOLD,24));
+						jt1.setBounds(300, 100, 400, 300);
+						dialog.removeAll();
+						dialog.setLayout(null);
+						dialog.setSize(800,500);
+						dialog.add(bt_close);
+						dialog.add(jt1);
+						dialog.setBounds(500, 300, 800, 500);
+						dialog.setVisible(true);
+							
+						JLabel lb_image1=new JLabel(new ImageIcon("dialog3.jpg"));
+						lb_image1.setBounds(0,0,800,500);
+						dialog.add(lb_image1);
+				
+
+				
+						}
 					}
+					
+					
+					BufferedReader bro = new BufferedReader(new InputStreamReader(System.in));
+					DataOutputStream doso=new DataOutputStream(new FileOutputStream("oddNumber.doc"));
+					BufferedWriter bwo = new BufferedWriter(new FileWriter("oddNumber.doc") );
+					doso.write(oddNumber);
+					
+					bw.write(oddNumber+"\n");
+					bw.write(new String(JCb_deskNum.getSelectedItem().toString())+"\n");
+					bw.write(String.valueOf(Integer.parseInt(tf_orderPeoplesLabel.getText()))+"\n");
+					bw.write(getTime()+"\n");
+					bw.write("茶位"+"\n");
+					bw.write(String.valueOf(Integer.parseInt(tf_orderPeoplesLabel.getText()))+"\n");
+					bw.write(String.valueOf((Integer.parseInt(tf_orderPeoplesLabel.getText())*5))+"\n");
+					
+					bwo.close();	
+					doso.close();
+					bro.close();
+					bw.close();	
+					dos.close();
+					br.close();
+
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				UPdate();
+				for(int j=0;j<36;j++) {
+					num[j]=0;
+					jck_dishchoose[j].setSelected(false);
+					lb_dishButton[j].remove(jck_dishchoose[j]);
+					lb_dishButton[j].add(jck_dishchoose[j]);
+					String str=new String(""+num[j]+"");
+					lb_num[j].setText(str);
+				}
+			}
+			
+		});
+		bt_addOrder.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				
+				if(tf_orderPeoplesLabel.getText().equals(""))
+				{	
+							JButton bt_close=new JButton("关闭");
+							String s=new String("请输入用餐人数！");
+							JLabel jt=new JLabel(s);
+							jt.setFont(new Font(fontType,Font.BOLD,40));
+							jt.setForeground(fontColor);
+							bt_close.addActionListener(mainJFrame);
+							bt_close.setBounds(350, 400, 100, 60);
+							bt_close.setFont(new Font(fontType,Font.BOLD,24));
+							jt.setBounds(250, 100, 400, 300);
+							dialog.removeAll();
+							dialog.setLayout(null);
+							dialog.setSize(800,500);
+							dialog.add(bt_close);
+							dialog.add(jt);
+							dialog.setBounds(500, 300, 800, 500);
+							dialog.setVisible(true);
+								
+							JLabel lb_image=new JLabel(new ImageIcon("dialog3.jpg"));
+							lb_image.setBounds(0,0,800,500);
+							dialog.add(lb_image);
+							return;	
+							
+
+							
+				}
+				
+				String i=JCb_deskNum.getSelectedItem().toString();
+				try {
+					BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+					DataOutputStream dos=new DataOutputStream(new FileOutputStream("00"+i+".doc",true));
+					BufferedWriter bw = new BufferedWriter(new FileWriter("00"+i+".doc",true));
+
+					oddNumber++;
+					oddStatus++;
+					for(int j=0;j<30;j++) {
+
+						String desknum=new String(JCb_deskNum.getSelectedItem().toString());
+						int people=Integer.parseInt(tf_orderPeoplesLabel.getText());
+						String time=getTime();
+						int number=	num[j];
+						if(num[j]==0)
+							continue;
+						String dish=new String(dishName[j]);
+						double totalPrice=number*price[j];
+						
+						bw.write(oddNumber+"\n");
+						bw.write(desknum+"\n");
+						bw.write(String.valueOf(people)+"\n");
+						bw.write(time+"\n");
+						bw.write(dish+"\n");
+						bw.write(String.valueOf(number)+"\n");
+						bw.write(String.valueOf(totalPrice)+"\n");
+						
+						
+						
+			
+					
+					}
+					
+
+					BufferedReader bro = new BufferedReader(new InputStreamReader(System.in));
+					DataOutputStream doso=new DataOutputStream(new FileOutputStream("oddNumber.doc"));
+					BufferedWriter bwo = new BufferedWriter(new FileWriter("oddNumber.doc") );
+					doso.write(oddNumber);
+					
+					
+					bw.write(oddNumber+"\n");
+					bw.write(new String(JCb_deskNum.getSelectedItem().toString())+"\n");
+					bw.write(String.valueOf(Integer.parseInt(tf_orderPeoplesLabel.getText()))+"\n");
+					bw.write(getTime()+"\n");
+					bw.write("茶位"+"\n");
+					bw.write(String.valueOf(Integer.parseInt(tf_orderPeoplesLabel.getText()))+"\n");
+					bw.write(String.valueOf((Integer.parseInt(tf_orderPeoplesLabel.getText())*5))+"\n");
+					
+					bwo.close();	
+					doso.close();
+					bro.close();
 					bw.close();
 					dos.close();
 					br.close();
@@ -784,43 +972,104 @@ public class OrderSystem extends JFrame implements ActionListener{
 					e1.printStackTrace();
 				}
 				
-			}
-		});
-		bt_addOrder.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e)
-			{
-				for(int i=0;i<36;i++) {
-					num[i]=0;
-					jck_dishchoose[i].setSelected(false);
-					lb_dishButton[i].remove(jck_dishchoose[i]);
-					lb_dishButton[i].add(jck_dishchoose[i]);
-					String str=new String(""+num[i]+"");
-					lb_num[i].setText(str);
+				
+					
+				JButton bt_close=new JButton("关闭");
+				String s=new String("加单成功！");
+				JLabel jt=new JLabel(s);
+				jt.setFont(new Font(fontType,Font.BOLD,40));
+				jt.setForeground(fontColor);
+				bt_close.addActionListener(mainJFrame);
+				bt_close.setBounds(350, 400, 100, 60);
+				bt_close.setFont(new Font(fontType,Font.BOLD,24));
+				jt.setBounds(250, 100, 400, 300);
+				dialog.removeAll();
+				dialog.setLayout(null);
+				dialog.setSize(800,500);
+				dialog.add(bt_close);
+				dialog.add(jt);
+				dialog.setBounds(500, 300, 800, 500);
+				dialog.setVisible(true);
+						
+				JLabel lb_image=new JLabel(new ImageIcon("dialog3.jpg"));
+				lb_image.setBounds(0,0,800,500);
+				dialog.add(lb_image);
+						
+				UPdate();	
+				for(int j=0;j<36;j++) {
+					num[j]=0;
+					jck_dishchoose[j].setSelected(false);
+					lb_dishButton[j].remove(jck_dishchoose[j]);
+					lb_dishButton[j].add(jck_dishchoose[j]);
+					String str=new String(""+num[j]+"");
+					lb_num[j].setText(str);
 				}
-				container.removeAll();
-				container.add(JTabPN_Dish);
-				container.add(panel);
-				UPdate();
-			}
+
+				}
+				
 			});
 		
 		bt_checkOut.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
-				for(int i=0;i<36;i++) {
-					num[i]=0;
-					jck_dishchoose[i].setSelected(false);
-					lb_dishButton[i].remove(jck_dishchoose[i]);
-					lb_dishButton[i].add(jck_dishchoose[i]);
-					String str=new String(""+num[i]+"");
-					lb_num[i].setText(str);
+				JButton bt_cancel=new JButton("取消");
+				JButton bt_pay=new JButton("付款");
+				String s=new String("请付款:"+total+" 元");
+				JLabel jt=new JLabel(s);
+				jt.setFont(new Font(fontType,Font.BOLD,40));
+				jt.setForeground(fontColor);
+				bt_cancel.addActionListener(mainJFrame);
+				bt_cancel.setBounds(250, 400, 100, 60);
+				bt_cancel.setFont(new Font(fontType,Font.BOLD,24));
+				
+				bt_pay.addActionListener(mainJFrame);
+				bt_pay.setBounds(450, 400, 100, 60);
+				bt_pay.setFont(new Font(fontType,Font.BOLD,24));
+				jt.setBounds(250, 100, 400, 300);
+				
+				if(tf_orderPeoplesLabel.getText().equals(""))
+				{	
+							JButton bt_close=new JButton("关闭");
+							String s1=new String("请输入用餐人数！");
+							JLabel jt1=new JLabel(s1);
+							jt1.setFont(new Font(fontType,Font.BOLD,40));
+							jt1.setForeground(fontColor);
+							bt_close.addActionListener(mainJFrame);
+							bt_close.setBounds(350, 400, 100, 60);
+							bt_close.setFont(new Font(fontType,Font.BOLD,24));
+							jt1.setBounds(250, 100, 400, 300);
+							dialog.removeAll();
+							dialog.setLayout(null);
+							dialog.setSize(800,500);
+							dialog.add(bt_close);
+							dialog.add(jt1);
+							dialog.setBounds(500, 300, 800, 500);
+							dialog.setVisible(true);
+								
+							JLabel lb_image=new JLabel(new ImageIcon("dialog3.jpg"));
+							lb_image.setBounds(0,0,800,500);
+							dialog.add(lb_image);
+							return;	
+							
+
+							
 				}
-				total=0;
-				lb_totalBill.setText("账单总额："+total+"元");
-				container.removeAll();
-				container.add(JTabPN_Dish);
-				container.add(panel);
-				UPdate();
+				
+				dialog.removeAll();
+				dialog.setLayout(null);
+				dialog.setSize(800,500);
+				dialog.add(bt_cancel);
+				dialog.add(bt_pay);
+				dialog.add(jt);
+				dialog.setBounds(500, 300, 800, 500);
+				dialog.setVisible(true);
+						
+				JLabel lb_image=new JLabel(new ImageIcon("dialog3.jpg"));
+				lb_image.setBounds(0,0,800,500);
+				dialog.add(lb_image);
+				
+				
+				
 			}
 			});
 		
@@ -905,12 +1154,12 @@ public class OrderSystem extends JFrame implements ActionListener{
 			}
 			});
 		
-		
+
 
 	}
 	
 	
-	
+
 	
 
 
@@ -923,17 +1172,39 @@ public class OrderSystem extends JFrame implements ActionListener{
 	
 	
 	public static Component makeRecordPanel() {
-		for(int j=0;j<30;j++) {
-			dishList[j][0]=dishName[j];
-		}
 		
+		int index=0,dishNUM=0;
 		for(int j=0;j<30;j++) {
-			dishList[j][1]=num[j];
+			if(num[j]!=0)
+			{
+				dishNUM++;
+			}
 		}
-		
+		if(!tf_orderPeoplesLabel.getText().equals("")&&Integer.parseInt(tf_orderPeoplesLabel.getText())!=0)
+		{
+			dishList=new Object[dishNUM+1][3];
+		}
+		else
+		{
+			dishList=new Object[dishNUM][3];
+		}
 		for(int j=0;j<30;j++) {
-			dishList[j][2]=num[j]*price[j];
+			if(num[j]!=0)
+			{
+				
+				dishList[index][0]=dishName[j];
+				dishList[index][1]=num[j];
+				dishList[index][2]=num[j]*price[j];
+				index++;
+			}
 		}
+		if(!tf_orderPeoplesLabel.getText().equals("")&&Integer.parseInt(tf_orderPeoplesLabel.getText())!=0)
+		{
+			dishList[index][0]="茶位";
+			dishList[index][1]=Integer.parseInt(tf_orderPeoplesLabel.getText());
+			dishList[index][2]=(int)(dishList[index][1])*5;
+			index++;
+		}	
 		JPanel panel2=new JPanel();
 		DefaultTableModel tableModel=new DefaultTableModel(dishList,dishListName);
 		JTable table =new JTable(tableModel);
@@ -963,20 +1234,7 @@ public class OrderSystem extends JFrame implements ActionListener{
 	
 	public static void UPdate() {
 		
-		for(int j=0;j<30;j++) {
-			if(num[j]>0)
-				dishList[j][0]=dishName[j];
-		}
-
-		for(int j=0;j<30;j++) {
-			if(num[j]>0)
-				dishList[j][1]=num[j];
-		}
-
-		for(int j=0;j<30;j++) {
-			if(num[j]>0)
-				dishList[j][2]=num[j]*price[j];
-		}
+		
 		container.removeAll();
 		container.add(JTabPN_Dish);
 		container.add(makeRecordPanel());
@@ -1000,6 +1258,156 @@ public class OrderSystem extends JFrame implements ActionListener{
 		{
 			dialog.dispose();
 		}
+		if(((JButton)e.getSource()).getText().equals("取消"))
+		{
+			dialog.dispose();
+		}
+		if(((JButton)e.getSource()).getText().equals("付款"))
+		{
+			dialog.dispose();
+			{
+					JButton bt_cancel1=new JButton("取消");
+					JButton bt_pay1=new JButton("已付款");
+					String s1=new String("请付款："+total+" 元");
+					JLabel jt1=new JLabel(s1);
+					jt1.setFont(new Font(fontType,Font.BOLD,40));
+					jt1.setForeground(fontColor);
+					bt_cancel1.addActionListener(mainJFrame);
+					bt_cancel1.setBounds(250, 400, 120, 60);
+					bt_cancel1.setFont(new Font(fontType,Font.BOLD,24));
+					
+					bt_pay1.addActionListener(mainJFrame);
+					bt_pay1.setBounds(450, 400, 120, 60);
+					bt_pay1.setFont(new Font(fontType,Font.BOLD,24));
+					jt1.setBounds(300, 100, 400, 300);
+					
+					dialog.removeAll();
+					dialog.setLayout(null);
+					dialog.setSize(800,500);
+					dialog.add(bt_cancel1);
+					dialog.add(bt_pay1);
+					dialog.add(jt1);
+					dialog.setBounds(500, 300, 800, 500);
+					dialog.setVisible(true);
+							
+					JLabel lb_image1=new JLabel(new ImageIcon("dialog3.jpg"));
+					lb_image1.setBounds(0,0,800,500);
+					dialog.add(lb_image1);
+					
+					
+					
+			}	
+				
+		}
+		if(((JButton)e.getSource()).getText().equals("已付款"))
+		{
+				dialog.dispose();
+				if(oddStatus==0)
+				{
+					String i=JCb_deskNum.getSelectedItem().toString();
+					try {
+						BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+						DataOutputStream dos=new DataOutputStream(new FileOutputStream("00"+i+".doc",true));
+						BufferedWriter bw = new BufferedWriter(new FileWriter("00"+i+".doc",true));
+
+						oddNumber++;
+						oddStatus++;
+						for(int j=0;j<30;j++) {
+							String desknum=new String(JCb_deskNum.getSelectedItem().toString());
+							int people=0;
+							people=Integer.parseInt(tf_orderPeoplesLabel.getText());
+							
+							String time=getTime();
+							int number=	num[j];
+							if(num[j]==0)
+								continue;
+							String dish=new String(dishName[j]);
+							double totalPrice=number*price[j];
+							
+							bw.write(oddNumber+"\n");
+							bw.write(desknum+"\n");
+							bw.write(String.valueOf(people)+"\n");
+							bw.write(time+"\n");
+							bw.write(dish+"\n");
+							bw.write(String.valueOf(number)+"\n");
+							bw.write(String.valueOf(totalPrice)+"\n");
+							
+							
+							
+						}
+						
+						
+						BufferedReader bro = new BufferedReader(new InputStreamReader(System.in));
+						DataOutputStream doso=new DataOutputStream(new FileOutputStream("oddNumber.doc"));
+						BufferedWriter bwo = new BufferedWriter(new FileWriter("oddNumber.doc") );
+						doso.write(oddNumber);
+						
+						bw.write(oddNumber+"\n");
+						bw.write(new String(JCb_deskNum.getSelectedItem().toString())+"\n");
+						bw.write(String.valueOf(Integer.parseInt(tf_orderPeoplesLabel.getText()))+"\n");
+						bw.write(getTime()+"\n");
+						bw.write("茶位"+"\n");
+						bw.write(String.valueOf(Integer.parseInt(tf_orderPeoplesLabel.getText()))+"\n");
+						bw.write(String.valueOf((Integer.parseInt(tf_orderPeoplesLabel.getText())*5))+"\n");
+						
+						bwo.close();	
+						doso.close();
+						bro.close();
+						bw.close();	
+						dos.close();
+						br.close();
+
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				for(int i=0;i<36;i++) {
+					num[i]=0;
+					jck_dishchoose[i].setSelected(false);
+					lb_dishButton[i].remove(jck_dishchoose[i]);
+					lb_dishButton[i].add(jck_dishchoose[i]);
+					String str=new String(""+num[i]+"");
+					lb_num[i].setText(str);
+				}
+				total=0;
+				oddStatus=0;
+				lb_totalBill.setText("账单总额："+total+"元");
+				container.removeAll();
+				container.add(JTabPN_Dish);
+				container.add(panel);
+				UPdate();
+				
+				JButton bt_cancel1=new JButton("关闭");
+				String s1=new String("付款成功！");
+				JLabel jt1=new JLabel(s1);
+				jt1.setFont(new Font(fontType,Font.BOLD,40));
+				jt1.setForeground(fontColor);
+				bt_cancel1.addActionListener(mainJFrame);
+				bt_cancel1.setBounds(300, 400, 120, 60);
+				bt_cancel1.setFont(new Font(fontType,Font.BOLD,24));
+				
+				
+				jt1.setBounds(250, 100, 400, 300);
+				
+				dialog.removeAll();
+				dialog.setLayout(null);
+				dialog.setSize(800,500);
+				dialog.add(bt_cancel1);
+
+				dialog.add(jt1);
+				dialog.setBounds(500, 300, 800, 500);
+				dialog.setVisible(true);
+						
+				JLabel lb_image1=new JLabel(new ImageIcon("dialog3.jpg"));
+				lb_image1.setBounds(0,0,800,500);
+				dialog.add(lb_image1);
+		}
+		
+		
 	}
 	
 }

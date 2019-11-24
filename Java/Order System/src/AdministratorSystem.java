@@ -20,14 +20,14 @@ public class AdministratorSystem extends JFrame{
 	static JButton[] bt_ad_Menu=new JButton[4];
 	static JButton[] customer=new JButton[50];
 	
-	static String[] dishListName= {"桌号","人数","时间","菜品","数量","消费金额"};
+	static String[] dishListName= {"单号","桌号","人数","时间","菜品","数量","消费金额"};
 	static String[] Menu= {"总清单","桌号清单","退出系统","退回主界面"};
 	static String[] dishName= {"布袋回锅肉","剁椒鱼头","辣子鸡","麻婆豆腐","烤鱼","豆干","火龙果炒澳带","老卤酱牛肉","凉拌金针菇","凉拌秋葵","蔬果杂烩拌菜","西柚大拌菜","叉烧酥点心","焦糖布丁","螺旋藻水饺点心","巧克力块","韭菜盒子点心","水果糯点心","干煸肉丝","宫爆鸡丁","红烧鸽子","芥菜肉汤","蒜苔炒腊肉","鱼香茄子","牛排小吃","陕北特色小吃","特色小吃春卷","鲜脆油炸小吃","红豆黄金饼","炸柿子糕","布袋回锅肉","剁椒鱼头","焦糖布丁","巧克力块","宫爆鸡丁","红烧鸽子"};
 	static String[] dishprice= {"45元","55元","45元","35元","45元","25元","35元","45元","45元","45元","25元","25元","45元","15元","35元","45元","45元","45元","45元","45元","25元","45元","45元","35元","45元","25元","15元","15元","15元","15元","45元","55元","15元","35元","45元","45元"};
 	static double[] price= {45,55,45,35,45,25,35,45,45,45,25,25,45,15,35,45,45,45,45,45,25,45,45,35,45,25,15,15,15,15,45,55,15,45,45,25};
 	
 	static Container container=mainJFrame.getContentPane();
-	
+
 	
 	public static void init()  {
 		mainJFrame=new AdministratorSystem();
@@ -181,7 +181,7 @@ public class AdministratorSystem extends JFrame{
 	
 	public static Component makeRecordPanel2(int i) {
 		
-		String[][] aa=new String [1000000][6];
+		String[][] aa=new String [1000000][7];
 		int j=0,k=0;
 	    BufferedReader in;
 		try {
@@ -190,7 +190,7 @@ public class AdministratorSystem extends JFrame{
 	    try {
 			while((s=in.readLine())!=null) {
 				aa[j][k++]=new String(s);
-				if(k==6) {
+				if(k==7) {
 					j++;
 					k=0;
 				}
@@ -233,7 +233,7 @@ public class AdministratorSystem extends JFrame{
 	
 	public static Component makeRecordPanel() {
 		
-		String[][] a=new String [1000000][6];
+		String[][] a=new String [1000000][7];
 		int j=0,k=0;
 		for(int i=1;i<=50;i++) {
 	        BufferedReader in;
@@ -243,7 +243,7 @@ public class AdministratorSystem extends JFrame{
 	        try {
 				while((s=in.readLine())!=null) {
 					a[j][k++]=new String(s);
-					if(k==6) {
+					if(k==7) {
 						j++;
 						k=0;
 					}
@@ -281,6 +281,10 @@ public class AdministratorSystem extends JFrame{
 
 		panel2.setBounds(0, 0, 850, 700);
 		return panel2;
+	}
+	static public void changePassWord()
+	{
+		
 	}
 
 }
